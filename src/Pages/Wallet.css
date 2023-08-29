@@ -1,0 +1,51 @@
+body {
+    /*background-color: rgb(38, 37, 91);*/
+}
+
+.wallet-page{
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 70%;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 50px;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+#chart{
+    justify-content: center;
+    text-align: center;
+
+}
+
+select{
+    justify-content: right;
+    text-align: right;
+    font-size: 1em;
+    margin-bottom: 1%;
+}
+
+table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.react-grid-Cell {
+    border: none;
+}
+
+.item{
+    color: red;
+}
+
+.wallet-profile-container{
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
