@@ -13,16 +13,18 @@ class NodeGraph extends Component {
             .append("svg")
             .attr("width", width)
             .attr("height", height)
-            .style("background-color", "red");
+            .style("background-color", "#transparent")
+            .attr("style", "outline: thin solid gray;")
+            .style("border-radius", "20px");
 
         const nodes = [
-            { ind: 0, x: width/2, y: height/2 },
-            { ind: 1, x: 200, y: 100 },
-            { ind: 2, x: 400, y: 40 },
-            { ind: 3, x: 600, y: 100 },
-            { ind: 4, x: 200, y: 200 },
-            { ind: 4, x: 400, y: 270 },
-            { ind: 5, x: 600, y: 200 }
+            { ind: 0, id: "0x000001", x: width/2, y: height/2 },
+            { ind: 1, id: "0x000002", x: 200, y: 100 },
+            { ind: 2, id: "0x000003", x: 400, y: 40 },
+            { ind: 3, id: "0x000004", x: 600, y: 100 },
+            { ind: 4, id: "0x000005", x: 200, y: 200 },
+            { ind: 4, id: "0x000006", x: 400, y: 270 },
+            { ind: 5, id: "0x000007", x: 600, y: 200 }
         ];
 
         const links = [
@@ -52,7 +54,7 @@ class NodeGraph extends Component {
                 return nodes[d.target].y; // Access the target node's y-coordinate
             })
             .attr("stroke", "black")
-            .attr("stroke-width", 3);
+            .attr("stroke-width", 2);
 
         svg.selectAll("circle")
             .data(nodes)
@@ -64,8 +66,28 @@ class NodeGraph extends Component {
             .attr("cy", function (d) {
                 return d.y
             })
-            .attr("r", 15)
-            .attr("fill", "green");
+            .attr("r", 10)
+            .attr("fill", function(d,i){
+                return "rgb("+(30+(i*225/nodes.length))+",0,255)";
+            });
+
+        svg.selectAll("text")
+            .data(nodes)
+            .enter()
+            .append("text")
+            .attr("x", function(d){
+                return d.x + 20;
+            })
+            .attr("y", function (d) {
+                return d.y;
+            })
+            .text(function(d,i){
+                if (i !== 0)
+                {
+                    return d.id;
+                }
+            })
+            .style("fill", "white");
 
     }
     render() {

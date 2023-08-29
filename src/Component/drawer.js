@@ -19,7 +19,7 @@ export default function PermanentDrawer() {
                 flexShrink: 0, //stops the drawer from shrinking if parent container becomes narrower
                 '& .MuiDrawer-paper': { //actual styling of the drawer
                     width: 120, //controls drawer content width
-                    backgroundColor: '#1b161b', // background color
+                    backgroundColor: '#261e35', // background color
                     borderRight: '1px solid #777777', // Add border on the right
                 },
             }}
