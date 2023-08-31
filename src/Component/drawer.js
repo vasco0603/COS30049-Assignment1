@@ -67,7 +67,7 @@ export default function PermanentDrawer() {
                         justifyContent: 'center', // Center horizontally
                         alignItems: 'center',
                         paddingLeft: 7.3, // Center vertically
-                        paddingTop: 58,
+                        marginTop: 57,
                         height: 70, // Adjust the height as
                     }}>
                     <ListItemIcon>
