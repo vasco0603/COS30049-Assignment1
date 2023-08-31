@@ -9,6 +9,10 @@ import InfoIcon from '@mui/icons-material/Info';
 import PeopleIcon from '@mui/icons-material/People';
 import WalletIcon from '@mui/icons-material/Wallet';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Wallet from './../Pages/Wallet';
+import Home from './../Pages/Home';
+import TeamMember from './../Pages/TeamMember';
 
 export default function PermanentDrawer() {
     return (
@@ -34,7 +38,7 @@ export default function PermanentDrawer() {
                         height: 70, // Adjust the height
                     }}>
                     <ListItemIcon>
-                        <CurrencyBitcoinIcon sx={{ color: 'yellow', fontSize: 50 }} />
+                        <Link to="/"><CurrencyBitcoinIcon sx={{ color: 'yellow', fontSize: 50 }} /></Link>
                     </ListItemIcon>
                 </ListItem>
                 <ListItem button
@@ -46,7 +50,7 @@ export default function PermanentDrawer() {
                         height: 70, // Adjust the height as
                     }}>
                     <ListItemIcon>
-                        <PeopleIcon sx={{ color: 'white' }} />
+                        <Link to="/TeamMember"><PeopleIcon sx={{ color: 'white' }} /></Link>
                     </ListItemIcon>
                 </ListItem>
                 <ListItem button
@@ -58,7 +62,7 @@ export default function PermanentDrawer() {
                         height: 70, // Adjust the height as
                     }}>
                     <ListItemIcon>
-                        <WalletIcon sx={{ color: 'white' }} />
+                        <Link to="/Wallet"><WalletIcon sx={{ color: 'white' }} /></Link>
                     </ListItemIcon>
                 </ListItem>
                 <ListItem button
@@ -74,6 +78,11 @@ export default function PermanentDrawer() {
                         <AccountCircleIcon sx={{ color: 'white' }} />
                     </ListItemIcon>
                 </ListItem>
+                <Routes>
+                    <Route path="/Wallet" element={<Wallet />} />
+                    <Route path="/Home" element={<Home />} />
+                    <Route path="/TeamMember" element={<TeamMember />} />
+                </Routes>
             </List>
         </Drawer>
     );

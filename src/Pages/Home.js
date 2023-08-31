@@ -45,7 +45,7 @@ export default function Home() {
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Item sx={{ backgroundColor: 'transparent' }}><CurrencyBitcoinIcon sx={{ color: 'yellow', fontSize: 150 }} /></Item>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Grid item xs={8} sm={10} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Item>
                                 <Seaarch />
                             </Item>

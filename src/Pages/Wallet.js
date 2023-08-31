@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import './Wallet.css';
-import NodeGraph from './../Component/NodeGraph'
+import NodeGraph from './../Component/NodeGraph';
 import Person2Icon from '@mui/icons-material/Person2';
 import Draweer from './../Component/drawer';
 
@@ -98,8 +98,8 @@ export default function Wallet() {
                                     <option value="out">Transaction Flow Out</option>
                                 </select>
                                 <div id="chart" class="svg-container">
+                                    <NodeGraph />
                                 </div>
-                                <NodeGraph />
                             </Item>
                         </Grid>
 
