@@ -7,6 +7,7 @@ import Draweer from './../Component/drawer';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import Seaarch from './../Component/searchBar';
 
+
 const Item = styled(Paper)(({ theme }) => ({ //creates a component "item" using MUI's styled utility
     ...theme.typography.body2,
     padding: theme.spacing(1), //padding for the size of the grids
