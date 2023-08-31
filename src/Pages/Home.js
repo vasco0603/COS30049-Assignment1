@@ -24,7 +24,7 @@ export default function Home() {
             sx={{                         //used to define the style for the box component while in javascript
                 display: 'flex',            //helps in ensuring that the color entire page
                 minHeight: '100vh',         // ensures the the color covers the entire page
-                backgroundColor: '#1b161b', //set the background color
+                backgroundColor: '#261e35', //set the background color
             }}
         >
             <Grid container spacing={1}>  {/* space between the grids \*/}

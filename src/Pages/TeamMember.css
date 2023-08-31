@@ -1,0 +1,64 @@
+body {
+    background-color: #261e35;
+}
+
+/* Styling for the main container */
+#intro-box {
+    background-color: transparent;
+    padding-inline: 10%;
+    padding-left: 20%;
+}
+
+/* Styling for individual member boxes */
+#intro-box .member {
+    margin: 20px 15px;
+    border-radius: 15px;
+    width: 400px;
+    padding: 40px 0;
+    height: max-content;
+    background-color: #b386bfa1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Styling for member images */
+#intro-box img {
+    border-radius: 50%;
+}
+
+/* Styling for main title inside the member box */
+#intro-box h1 {
+    padding-top: 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    align-items: center;
+}
+
+/* Styling for member name inside the description */
+#intro-box .description h1 {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    align-items: center;
+}
+
+/* Styling for member position inside the description */
+#intro-box .description h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: #e97ce3;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Styling for member description text */
+#intro-box .description p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: rgb(255, 159, 239);
+    text-align: center;
+    padding: 0 15px;
+}
