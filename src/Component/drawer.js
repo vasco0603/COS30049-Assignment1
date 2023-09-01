@@ -78,11 +78,6 @@ export default function PermanentDrawer() {
                         <AccountCircleIcon sx={{ color: 'white' }} />
                     </ListItemIcon>
                 </ListItem>
-                <Routes>
-                    <Route path="/Wallet" element={<Wallet />} />
-                    <Route path="/Home" element={<Home />} />
-                    <Route path="/TeamMember" element={<TeamMember />} />
-                </Routes>
             </List>
         </Drawer>
     );
