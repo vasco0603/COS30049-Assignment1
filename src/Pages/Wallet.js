@@ -7,6 +7,7 @@ import './Wallet.css';
 import NodeGraph from './../Component/NodeGraph';
 import Person2Icon from '@mui/icons-material/Person2';
 import Draweer from './../Component/drawer';
+/*Import the resources needed in the d3 Graph*/
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -19,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
     stretch: { height: "100%" },
     color: theme.palette.text.secondary,
 }));
+/*Declaring the item for the ones that will be used in the grid */
 
 export default function Wallet() {
     return (
@@ -28,6 +30,7 @@ export default function Wallet() {
             </div>
             <div class="wallet-page-details">
                 <Draweer />
+                 {/* Calling the Drawer SideBar*/}
                 <Box sx={{flexGrow: 1}} class="Grid-Box">
                     <Grid container spacing={2} alignItems="stretch">
                         <Grid item xs={12} sm={3} md={4} >
@@ -36,6 +39,7 @@ export default function Wallet() {
                                     <br></br><br></br><br></br>
                                     <Person2Icon sx={{ fontSize: 100, fill: 'white' }} /><p class="wallet-id">0x000001</p>
                                 </div>
+                                {/*Have the Item contain the  profile container which have the logo and the profile ID */}
                             </Item>
                         </Grid>
 
@@ -89,7 +93,7 @@ export default function Wallet() {
                                         </table>
                                     </div>
                                 </div>
-
+                            {/*Table contains incoming transaction */}
                             </Item>
                         </Grid>
 
@@ -99,13 +103,13 @@ export default function Wallet() {
                                     <option value="in">Transaction Flow In</option>
                                     <option value="out">Transaction Flow Out</option>
                                 </select>
+                                {/*Select Option to choose Incoming or Outgoing Transaction */}
                                 <div id="chart" class="svg-container">
                                     <NodeGraph />
                                 </div>
+                                {/*Anchor for the d3 Graph to be shown */}
                             </Item>
                         </Grid>
-
-
                     </Grid>
                 </Box>
             </div>

@@ -1,6 +1,7 @@
 body {
     background-color: #261e35;
 }
+/*Body Background Colour*/
 
 .wallet-page-details{
     background-color: #3c354a;
@@ -12,13 +13,14 @@ body {
     margin-top: 50px;
     padding: 10px;
     border-radius: 10px;
-
 }
+/*Box of wallet details for the account*/
 
 #chart{
     justify-content: center;
     text-align: center;
 }
+/*Middle the chart content*/
 
 select{
     justify-content: right;
@@ -30,11 +32,13 @@ select{
     color: white;
     padding: 5px 50px;
 }
+/*Styling for the select drop down option*/
 
 option{
     justify-content: center;
     text-align: center;
 }
+/*Styling for the option in the select box*/
 
 table, th, td{
     border: 1px solid rgb(90, 90, 90);
@@ -46,19 +50,23 @@ table, th, td{
     color: white;
     font-family: 'Montserrat', sans-serif;
 }
+/*Styling in the tables for incoming transaction data*/
 
 th{
     background-color: rgb(73, 73, 73);
 }
+/*Styling for the table header*/
 
 td{
     background-color: rgb(58, 58, 58);
 }
+/*Styling for the table cols*/
 
 table{
     width: 83%;
     margin-top: 10px;
 }
+/*Styling for the table*/
 
 .react-grid-Cell {
     border: none;
@@ -73,6 +81,7 @@ table{
     text-align: center;
     vertical-align: middle;
 }
+/*Wallet Profile Container Styling*/
 
 .wallet-header-paragraph{
     color: white;
@@ -82,17 +91,20 @@ table{
     margin-left: 120px;
     font-family: 'Montserrat', sans-serif;
 }
+/*Header Paragraph Styling*/
 
 .wallet-id{
     color: white;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
 }
+/*Wallet ID Text styling*/
 
 .table-wrapper {
     overflow-x: auto;
     max-width: 100%;
 }
+/*Styling for table wrapper*/
 
 #chart-container{
     justify-content: center;
@@ -100,4 +112,6 @@ table{
     max-width: 100%;
     overflow-x :auto;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
+/*Styling for the chart container*/
