@@ -18,7 +18,6 @@ body {
 #chart{
     justify-content: center;
     text-align: center;
-
 }
 
 select{
@@ -88,4 +87,17 @@ table{
     color: white;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+#chart-container{
+    justify-content: center;
+    margin: auto;
+    max-width: 100%;
+    overflow-x :auto;
+    padding-top: 10px;
 }

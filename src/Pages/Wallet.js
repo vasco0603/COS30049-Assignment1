@@ -39,53 +39,55 @@ export default function Wallet() {
                             </Item>
                         </Grid>
 
-                        <Grid item xs={12} sm={5} md={8}>
+                        <Grid item xs={12} sm={9} md={8}>
                             <Item>
                                 <div class="transaction-table-container">
-                                    <table class="transaction-table">
-                                        <tr>
-                                            <th>Transaction ID</th>
-                                            <th>Value</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>20 ETH</td>
-                                            <td>0x000002</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>10 ETH</td>
-                                            <td>0x000003</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>50 ETH</td>
-                                            <td>0x000004</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>5 ETH</td>
-                                            <td>0x000005</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>8 ETH</td>
-                                            <td>0x000006</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>T1</td>
-                                            <td>12 ETH</td>
-                                            <td>0x000007</td>
-                                            <td>0x000001</td>
-                                        </tr>
-                                    </table>
+                                    <div class="table-wrapper">
+                                        <table class="transaction-table" style={{ width: '100%' }}>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>Value</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>20 ETH</td>
+                                                <td>0x000002</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>10 ETH</td>
+                                                <td>0x000003</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>50 ETH</td>
+                                                <td>0x000004</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>5 ETH</td>
+                                                <td>0x000005</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>8 ETH</td>
+                                                <td>0x000006</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                            <tr>
+                                                <td>T1</td>
+                                                <td>12 ETH</td>
+                                                <td>0x000007</td>
+                                                <td>0x000001</td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
 
                             </Item>
