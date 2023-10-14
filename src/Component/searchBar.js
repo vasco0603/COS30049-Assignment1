@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment } from "@mui/material";
+import Axios from 'axios';
 
-const CenteredSearchBar = () => {
+const CenteredSearchBar = ({ onSelectedValueChange }) => {
+    const [addressIds, setAddressIds] = useState([]);
+
+    useEffect(() => {
+        Axios.get('http://127.0.0.1:8000/allwallet')
+            .then((response) => {
+                const data = response.data;
+                const extractedIds = data.map((item) => item[0].addressId);
+                setAddressIds(extractedIds);
+            })
+            .catch((error) => {
+                console.error('Error fetching data from Neo4j', error);
+            });
+    }, []);
+
     return (
         <div
             style={{
@@ -19,7 +34,7 @@ const CenteredSearchBar = () => {
                     freeSolo
                     id="free-solo-2-demo"
                     disableClearable
-                    options={top100Films.map((option) => option.title)}
+                    options={addressIds}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -27,7 +42,7 @@ const CenteredSearchBar = () => {
                                 ...params.InputProps,
                                 type: 'search',
                                 startAdornment: (
-                                    <InputAdornment position="start" button>
+                                    <InputAdornment position="start" button="true">
                                         <SearchIcon sx={{ color: 'white' }} />
                                     </InputAdornment>
                                 ),
@@ -36,7 +51,7 @@ const CenteredSearchBar = () => {
                                 '& .MuiOutlinedInput-root': {
                                     color: 'white',
                                     '& fieldset': {
-                                        borderColor: 'white', // Change the border color to white
+                                        borderColor: 'white',
                                     },
                                 },
                             }}
@@ -47,15 +62,5 @@ const CenteredSearchBar = () => {
         </div>
     );
 }
-
-const top100Films = [
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e' },
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f44f' },
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f450' },
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f451' },
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f452' },
-    { title: "0x742d35Cc6634C0532925a3b844Bc454e4438f453" },
-    { title: '0x742d35Cc6634C0532925a3b844Bc454e4438f454' },
-];
 
 export default CenteredSearchBar;

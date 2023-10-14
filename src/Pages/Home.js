@@ -7,36 +7,31 @@ import Draweer from './../Component/drawer';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import Seaarch from './../Component/searchBar';
 
-
-const Item = styled(Paper)(({ theme }) => ({ //creates a component "item" using MUI's styled utility
+const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
-    padding: theme.spacing(1), //padding for the size of the grids
-    textAlign: 'center',      //align the text to center
-    color: '#777777',         //color of the text
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: '#777777',
     boxShadow: 'none',
-    backgroundColor: '#362c35'// color of the grid
+    backgroundColor: '#362c35',
 }));
 
-
-
 export default function Home() {
+
     return (
-        <Box                            //used box to change background color of the whole page
-            sx={{                         //used to define the style for the box component while in javascript
-                display: 'flex',            //helps in ensuring that the color entire page
-                minHeight: '100vh',         // ensures the the color covers the entire page
-                backgroundColor: '#261e35', //set the background color
+        <Box
+            sx={{
+                display: 'flex',
+                minHeight: '100vh',
+                backgroundColor: '#261e35',
             }}
         >
-            <Grid container spacing={1}>  {/* space between the grids \*/}
-                {/* Sidebar */}
-                <Grid item xs={1}>   {/* alloted space for the grid in the page and the styling is to allow it to stretch downa*/}
+            <Grid container spacing={1}>
+                <Grid item xs={1}>
                     <Item>
-                        <Draweer /> {/*insert side bar object*/}
+                        <Draweer />
                     </Item>
                 </Grid>
-
-                {/* Main Content */}
                 <Grid item xs={11}>
                     <Grid container spacing={10}>
                         <Grid item xs={12} sm={12} md={12}>
@@ -47,10 +42,9 @@ export default function Home() {
                         </Grid>
                         <Grid item xs={8} sm={10} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Item>
-                                <Seaarch />
+                                <Seaarch/>
                             </Item>
                         </Grid>
-                        {/* listed items here i guess?*/}
                     </Grid>
                 </Grid>
             </Grid>
