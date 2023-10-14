@@ -1,10 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-export default function NodeGraph() {
+export default function NodeGraph({ transactionFlow }) {
     const svgRef = useRef(null);
+    const simulationRef = useRef(null);
 
     useEffect(() => {
+        let data;
+        if (transactionFlow === 'in') {
+            // Load data for transaction flow in
+            data = [
+                // ... define your data for 'in' flow here
+            ];
+        } else if (transactionFlow === 'out') {
+            // Load data for transaction flow out
+            data = [
+                // ... define your data for 'out' flow here
+            ];
+        }
+
+        // Get the SVG container and dimensions
         const chartContainer = document.getElementById('chart-container');
         const width = chartContainer.clientWidth;
         const height = chartContainer.clientHeight;
@@ -16,13 +32,13 @@ export default function NodeGraph() {
             .style("border-radius", "20px");
 
         const nodes = [
-            { ind: 0, id: '0x000001', x: width / 2, y: height / 2 },
-            { ind: 1, id: '0x000002', x: 200, y: 100 },
-            { ind: 2, id: '0x000003', x: 400, y: 40 },
-            { ind: 3, id: '0x000004', x: 600, y: 100 },
-            { ind: 4, id: '0x000005', x: 200, y: 200 },
-            { ind: 5, id: '0x000006', x: 400, y: 270 },
-            { ind: 6, id: '0x000007', x: 600, y: 200 },
+            { ind: 0, id: '0x000001'},
+            { ind: 1, id: '0x000002'},
+            { ind: 2, id: '0x000003'},
+            { ind: 3, id: '0x000004'},
+            { ind: 4, id: '0x000005'},
+            { ind: 5, id: '0x000006'},
+            { ind: 6, id: '0x000007'},
         ];
 
         const links = [
@@ -35,18 +51,27 @@ export default function NodeGraph() {
             { source: 6, target: 0 },
         ];
 
-        const simulation = d3.forceSimulation(nodes)
-            .force('charge', d3.forceManyBody().strength(-200))
-            .force('link', d3.forceLink(links).distance(100))
-            .force('center', d3.forceCenter(width / 2, height / 2))
-            .on('tick', () => {
-                nodeGroup.attr('transform', (d) => `translate(${d.x},${d.y})`);
-                lines
-                    .attr('x1', (d) => d.source.x)
-                    .attr('y1', (d) => d.source.y)
-                    .attr('x2', (d) => d.target.x)
-                    .attr('y2', (d) => d.target.y);
-            });
+        // Initialize or update the simulation
+        if (!simulationRef.current) {
+            // Create the simulation if it doesn't exist
+            simulationRef.current = d3.forceSimulation(nodes)
+                .force('charge', d3.forceManyBody().strength(-200))
+                .force('link', d3.forceLink(links).distance(100))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .on('tick', () => {
+                    // Update node and line positions
+                    nodeGroup.attr('transform', (d) => `translate(${d.x},${d.y})`);
+                    lines
+                        .attr('x1', (d) => d.source.x)
+                        .attr('y1', (d) => d.source.y)
+                        .attr('x2', (d) => d.target.x)
+                        .attr('y2', (d) => d.target.y);
+                });
+        } else {
+            // Restart the simulation if it already exists
+            simulationRef.current.nodes(nodes).force('link').links(links);
+            simulationRef.current.alpha(1).restart();
+        }
 
         const lines = svg.selectAll('line')
             .data(links)
@@ -62,7 +87,7 @@ export default function NodeGraph() {
             .call(
                 d3.drag()
                     .on('start', (event, d) => {
-                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        if (!event.active) simulationRef.current.alphaTarget(0.3).restart();
                         d.fx = d.x;
                         d.fy = d.y;
                     })
@@ -71,7 +96,7 @@ export default function NodeGraph() {
                         d.fy = event.y;
                     })
                     .on('end', (event, d) => {
-                        if (!event.active) simulation.alphaTarget(0);
+                        if (!event.active) simulationRef.current.alphaTarget(0);
                         d.fx = null;
                         d.fy = null;
                     })
@@ -88,7 +113,7 @@ export default function NodeGraph() {
             .attr('dy', '0.35em')
             .text((d, i) => (i !== 0 ? d.id : ''))
             .style('fill', 'white');
-    }, []);
+    }, [transactionFlow]);
 
     return (
         <div id="chart-container" style={{ width: '100%', height: '300px' }}>

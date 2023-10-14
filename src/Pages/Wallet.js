@@ -11,16 +11,16 @@ import Person2Icon from '@mui/icons-material/Person2';
 import Draweer from './../Component/drawer';
 import Axios from 'axios';
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: 'transparent',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    border: 'none',
-    boxShadow: 'none',
-    stretch: { height: "100%" },
-    color: theme.palette.text.secondary,
-}));
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: 'transparent',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        border: 'none',
+        boxShadow: 'none',
+        stretch: { height: "100%" },
+        color: theme.palette.text.secondary,
+    }));
 
 export default function Wallet() {
     // State variable to store the selected option
@@ -28,9 +28,9 @@ export default function Wallet() {
     const [transactions, setTransactions] = useState([]);
     const [transactionsfrom, setTransactionsfrom] = useState([])
 
-    const handleTransactionFlowChange = (event) => {
-        setTransactionFlow(event.target.value);
-    };
+        const handleTransactionFlowChange = (event) => {
+            setTransactionFlow(event.target.value);
+        };
 
     useEffect(() => {
         // Fetch data from your source (e.g., Neo4j) and set the transactions state
