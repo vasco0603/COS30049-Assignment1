@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react'; // Import useState from React
+import { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -8,6 +9,7 @@ import './Wallet.css';
 import NodeGraph from './../Component/NodeGraph';
 import Person2Icon from '@mui/icons-material/Person2';
 import Draweer from './../Component/drawer';
+import Axios from 'axios';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -23,10 +25,33 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Wallet() {
     // State variable to store the selected option
     const [transactionFlow, setTransactionFlow] = useState('in');
+    const [transactions, setTransactions] = useState([]);
+    const [transactionsfrom, setTransactionsfrom] = useState([])
 
     const handleTransactionFlowChange = (event) => {
         setTransactionFlow(event.target.value);
     };
+
+    useEffect(() => {
+        // Fetch data from your source (e.g., Neo4j) and set the transactions state
+        Axios.get('http://127.0.0.1:8000/WalletDetails')
+          .then((response) => {
+            const neo4jData = response.data; // Assuming the response is the array you provided
+            setTransactions(neo4jData);
+          })
+          .catch((error) => {
+            console.error('Error fetching data from Neo4j', error);
+          });
+          Axios.get('http://127.0.0.1:8000/WalletFrom')
+          .then((response) => {
+            const neo4jDatafrom = response.data; // Assuming the response is the array you provided
+            setTransactionsfrom(neo4jDatafrom);
+          })
+          .catch((error) => {
+            console.error('Error fetching data from Neo4j', error);
+          });
+      },
+       []);
 
     return (
         <div className="wallet-page">
@@ -72,56 +97,60 @@ export default function Wallet() {
                                 <div className="transaction-table-container">
                                     {/* Content based on the selected option */}
                                     {transactionFlow === "in" ? (
+                                        
                                         <div className="table-wrapper">
-                                            <table className="transaction-table" style={{ width: '100%' }}>
-                                                <tr>
-                                                    <th>Transaction ID</th>
-                                                    <th>Value</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>20 ETH</td>
-                                                    <td>0x000002</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>10 ETH</td>
-                                                    <td>0x000003</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>50 ETH</td>
-                                                    <td>0x000004</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>5 ETH</td>
-                                                    <td>0x000005</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>8 ETH</td>
-                                                    <td>0x000006</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>T1</td>
-                                                    <td>12 ETH</td>
-                                                    <td>0x000007</td>
-                                                    <td>0x000001</td>
-                                                </tr>
-                                            </table>
+                                        <table className="transaction-table" style={{ width: '100%' }}>
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>From</th>
+                                                <th>Value</th>
+                                                <th>To</th>
+                                                <th>gas used</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {transactions.map((transactionGroup, index) => (
+                                            transactionGroup.map((transaction, innerIndex) => (
+                                            <tr key={`${index}-${innerIndex}`}>
+                                                <td>{index + 1}</td>
+                                                <td>{transaction._nodes[0].name}</td>
+                                                <td>{transaction._relationships[0].value}</td>
+                                                <td>{transaction._nodes[1].name}</td>
+                                                <td>{transaction._relationships[0].gas_used}</td>
+                                        </tr>
+                                             ))
+                                            ))}
+                                        </tbody>
+                                        </table>
                                         </div>
                                     ) : (
                                         // Content for "Transaction Flow Out"
                                         <div className="outgoing-transaction-content">
-                                            {/* Add content for "Transaction Flow Out" */}
+                                            <table className="transaction-table" style={{ width: '100%' }}>
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>From</th>
+                                                <th>Value</th>
+                                                <th>To</th>
+                                                <th>gas used</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {transactionsfrom.map((transactionGroup, index) => (
+                                            transactionGroup.map((transaction, innerIndex) => (
+                                            <tr key={`${index}-${innerIndex}`}>
+                                                <td>{index + 1}</td>
+                                                <td>{transaction._nodes[0].name}</td>
+                                                <td>{transaction._relationships[0].value}</td>
+                                                <td>{transaction._nodes[1].name}</td>
+                                                <td>{transaction._relationships[0].gas_used}</td>
+                                        </tr>
+                                             ))
+                                            ))}
+                                        </tbody>
+                                        </table>
                                         </div>
                                     )}
                                 </div>
