@@ -28,12 +28,14 @@ async def mainpage():
     return ("backend connected successfully")
 
 @app.get("/WalletDetails")
-async def walletdetails():
+async def walletdetails(addressId:str):
+    print(addressId)
     driver = GraphDatabase.driver(uri, auth=(user, password))
     session = driver.session(database="neo4j")
 
 
-    query = "MATCH p=(source:wallet {addressId: '0x8d08aad4b2bac2bb761ac4781cf62468c9ec47b4'})-[:SENT_TO]->(target) return p;"
+    query = "MATCH (a:wallet {addressId: '0xb0606f433496bf66338b8ad6b6d51fc4d84a44cd'})-[:SENT_TO]->(b:wallet) RETURN a, b, [(a)-[r:SENT_TO]->(b) | r] AS sent_relationships;"
+    print(query)
 
     result = session.run(query)
 
@@ -51,12 +53,13 @@ async def walletdetails():
     return results_list
 
 @app.get("/WalletFrom")
-async def walletdetailsfrom():
+async def walletdetailsfrom(addressId:str):
     driver = GraphDatabase.driver(uri, auth=(user, password))
     session = driver.session(database="neo4j")
 
 
-    query = "MATCH p=(target)-[:RECEIVED_FROM]->(source:wallet {addressId: '0x8d08aad4b2bac2bb761ac4781cf62468c9ec47b4'}) RETURN p;"
+    query = "MATCH p=(target)-[:RECEIVED_FROM]->(source:wallet {addressId: '"+addressId+"'}) RETURN p;"
+    print(query)
 
     result = session.run(query)
 

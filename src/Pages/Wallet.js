@@ -9,6 +9,8 @@ import NodeGraph from './../Component/NodeGraph';
 import Person2Icon from '@mui/icons-material/Person2';
 import Draweer from './../Component/drawer';
 import Axios from 'axios';
+import { useParams } from 'react-router-dom';
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
@@ -29,10 +31,14 @@ export default function Wallet() {
         setTransactionFlow(event.target.value);
     };
 
+    const { searchValue } = useParams();
+
+
     useEffect(() => {
+        console.log(searchValue)
         // Fetch data from your source (e.g., Neo4j) and set the transactions state
         if (transactionFlow === 'in') {
-            Axios.get('http://127.0.0.1:8000/WalletFrom')
+            Axios.get("http://127.0.0.1:8000/WalletFrom?addressId="+ searchValue)
                 .then((response) => {
                     const neo4jDatafrom = response.data; // Assuming the response is the array you provided
                     setTransactions(neo4jDatafrom);
@@ -41,7 +47,7 @@ export default function Wallet() {
                     console.error('Error fetching data from Neo4j', error);
                 });
         } else if (transactionFlow === 'out') {
-            Axios.get('http://127.0.0.1:8000/WalletDetails')
+            Axios.get("http://127.0.0.1:8000/WalletDetails?addressId="+searchValue)
                 .then((response) => {
                     const neo4jData = response.data; // Assuming the response is the array you provided
                     setTransactions(neo4jData);
@@ -50,7 +56,7 @@ export default function Wallet() {
                     console.error('Error fetching data from Neo4j', error);
                 });
         }
-    }, [transactionFlow]); // Listen for changes in transactionFlow
+    }, [searchValue, transactionFlow]); // Listen for changes in transactionFlow
 
     return (
         <div className="wallet-page">

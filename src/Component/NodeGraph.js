@@ -1,14 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import { useNavigate } from 'react-router-dom';
 
-const NodeGraph = ({ transactions, transactionFlow }) => {
+const NodeGraph = ({ transactions, transactionFlow}) => {
     const svgRef = useRef(null);
     const simulationRef = useRef(null);
+    const navigate = useNavigate();
+    const [selectedNodeId, setSelectedNodeId] = useState(null);
+
+    const resetSimulation = () => {
+        if (simulationRef.current) {
+            simulationRef.current.stop();
+        }
+        // Clear existing nodes and links from the SVG
+        d3.select(svgRef.current).selectAll('*').remove();
+    };
 
     useEffect(() => {
         const chartContainer = document.getElementById('chart-container');
         const width = chartContainer.clientWidth;
         const height = chartContainer.clientHeight;
+        resetSimulation();
 
         const svg = d3.select(svgRef.current)
             .attr('width', width)
@@ -51,6 +63,7 @@ const NodeGraph = ({ transactions, transactionFlow }) => {
             });
         });
 
+
         const drag = d3.drag()
             .on('start', (event, d) => {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -91,7 +104,16 @@ const NodeGraph = ({ transactions, transactionFlow }) => {
             .data(nodes)
             .enter()
             .append('g')
-            .call(drag);
+            .call(drag)
+            .on('click', (event, d) => {
+                if (d.id !== selectedNodeId) {
+                    setSelectedNodeId(d.id); // Set the new selectedNodeId
+                    navigate(`/Wallet/${d.id}`);
+                } else {
+                    setSelectedNodeId(null); // Reset the selectedNodeId
+                    console.log("Clicked the same node, resetting...");
+                }
+            });
 
         nodeGroup
             .append('circle')
@@ -104,7 +126,7 @@ const NodeGraph = ({ transactions, transactionFlow }) => {
             .attr('dy', '0.35em')
             .text((d, i) => (i !== -1 ? d.name : ''))
             .style('fill', 'white');
-    }, [transactions, transactionFlow]);
+    }, [transactions, transactionFlow, selectedNodeId]);
 
     return (
         <div id="chart-container" style={{ width: '100%', height: '300px' }}>
