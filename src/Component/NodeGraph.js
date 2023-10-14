@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
-/*Import the resources needed in the d3 Graph*/
 
 export default function NodeGraph() {
     const svgRef = useRef(null);
@@ -10,25 +8,21 @@ export default function NodeGraph() {
         const chartContainer = document.getElementById('chart-container');
         const width = chartContainer.clientWidth;
         const height = chartContainer.clientHeight;
-        /*Declaring the Width and Height based on the container*/
 
         const svg = d3.select(svgRef.current)
             .attr('width', width)
-            .attr('height', '100%')
-            .style("background-color", "#transparent")
+            .attr('height', height)
             .attr("style", "outline: thin solid gray;")
-            .style('border-radius', '20px');
-        /*Declaring SVG canvas with the anchor of current svg container and give it some styling*/
-        /*Declaring SVG canvas with the anchor of current svg container and give it some styling*/
+            .style("border-radius", "20px");
 
         const nodes = [
-            { ind: 0, id: "0x000001", x: width / 2, y: height / 2 },
-            { ind: 1, id: "0x000002", x: 200, y: 100 },
-            { ind: 2, id: "0x000003", x: 400, y: 40 },
-            { ind: 3, id: "0x000004", x: 600, y: 100 },
-            { ind: 4, id: "0x000005", x: 200, y: 200 },
-            { ind: 4, id: "0x000006", x: 400, y: 270 },
-            { ind: 5, id: "0x000007", x: 600, y: 200 }
+            { ind: 0, id: '0x000001', x: width / 2, y: height / 2 },
+            { ind: 1, id: '0x000002', x: 200, y: 100 },
+            { ind: 2, id: '0x000003', x: 400, y: 40 },
+            { ind: 3, id: '0x000004', x: 600, y: 100 },
+            { ind: 4, id: '0x000005', x: 200, y: 200 },
+            { ind: 5, id: '0x000006', x: 400, y: 270 },
+            { ind: 6, id: '0x000007', x: 600, y: 200 },
         ];
 
         const links = [
@@ -38,63 +32,62 @@ export default function NodeGraph() {
             { source: 3, target: 0 },
             { source: 4, target: 0 },
             { source: 5, target: 0 },
-            { source: 6, target: 0 }
+            { source: 6, target: 0 },
         ];
-        /*Dummy Sample Data of Nodes and Links */
 
-        svg.selectAll("line")
+        const simulation = d3.forceSimulation(nodes)
+            .force('charge', d3.forceManyBody().strength(-200))
+            .force('link', d3.forceLink(links).distance(100))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .on('tick', () => {
+                nodeGroup.attr('transform', (d) => `translate(${d.x},${d.y})`);
+                lines
+                    .attr('x1', (d) => d.source.x)
+                    .attr('y1', (d) => d.source.y)
+                    .attr('x2', (d) => d.target.x)
+                    .attr('y2', (d) => d.target.y);
+            });
+
+        const lines = svg.selectAll('line')
             .data(links)
             .enter()
-            .append("line")
-            .attr("x1", function (d) {
-                return nodes[d.source].x; // Access the source node's x-coordinate
-            })
-            .attr("y1", function (d) {
-                return nodes[d.source].y; // Access the source node's y-coordinate
-            })
-            .attr("x2", function (d) {
-                return nodes[d.target].x; // Access the target node's x-coordinate
-            })
-            .attr("y2", function (d) {
-                return nodes[d.target].y; // Access the target node's y-coordinate
-            })
-            .attr("stroke", "black")
-            .attr("stroke-width", 2);
-        /*Drawing the line from the source to destination */
+            .append('line')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2);
 
-        svg.selectAll("circle")
+        const nodeGroup = svg.selectAll('g')
             .data(nodes)
             .enter()
-            .append("circle")
-            .attr("cx", function (d) {
-                return d.x
-            })
-            .attr("cy", function (d) {
-                return d.y
-            })
-            .attr("r", 10)
-            .attr("fill", function (d, i) {
-                return "rgb(" + (30 + (i * 225 / nodes.length)) + ",0,255)";
-            });
-        /*Drawing the nodes from the dummy data */
+            .append('g')
+            .call(
+                d3.drag()
+                    .on('start', (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    })
+                    .on('drag', (event, d) => {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    })
+                    .on('end', (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    })
+            );
 
-        svg.selectAll("text")
-            .data(nodes)
-            .enter()
-            .append("text")
-            .attr("x", function (d) {
-                return d.x + 20;
-            })
-            .attr("y", function (d) {
-                return d.y;
-            })
-            .text(function (d, i) {
-                if (i !== 0) {
-                    return d.id;
-                }
-            })
-            .style("fill", "white");
-            /*Adding text of the node ID */
+        nodeGroup
+            .append('circle')
+            .attr('r', 10)
+            .attr('fill', (d, i) => `rgb(${30 + (i * 225 / nodes.length)}, 0, 255)`);
+
+        nodeGroup
+            .append('text')
+            .attr('x', 12)
+            .attr('dy', '0.35em')
+            .text((d, i) => (i !== 0 ? d.id : ''))
+            .style('fill', 'white');
     }, []);
 
     return (
@@ -102,4 +95,4 @@ export default function NodeGraph() {
             <svg ref={svgRef}></svg>
         </div>
     );
-};
+}

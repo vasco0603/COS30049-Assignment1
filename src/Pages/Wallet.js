@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react'; // Import useState from React
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -20,21 +21,29 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Wallet() {
+    // State variable to store the selected option
+    const [selectedOption, setSelectedOption] = useState("in");
+
+    // Function to handle option change and update content
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
     return (
-        <div class="wallet-page">
-            <div class="wallet-page-header">
-                <p class="wallet-header-paragraph">Wallet</p>
+        <div className="wallet-page">
+            <div className="wallet-page-header">
+                <p className="wallet-header-paragraph">Wallet</p>
             </div>
-            <div class="wallet-page-details">
+            <div className="wallet-page-details">
                 <Draweer />
                 {/* Calling the Drawer SideBar */}
-                <Box sx={{ flexGrow: 1 }} class="Grid-Box">
+                <Box sx={{ flexGrow: 1 }} className="Grid-Box">
                     <Grid container spacing={2} alignItems="stretch">
                         <Grid item xs={12} sm={3} md={4}>
                             <Item>
-                                <div class="wallet-profile-container">
-                                    <br></br><br></br><br></br>
-                                    <Person2Icon sx={{ fontSize: 100, fill: 'white' }} /><p class="wallet-id">0x000001</p>
+                                <div className="wallet-profile-container">
+                                    <br /><br /><br />
+                                    <Person2Icon sx={{ fontSize: 100, fill: 'white' }} /><p className="wallet-id">0x000001</p>
                                 </div>
                                 {/* Have the Item contain the profile container which has the logo and the profile ID */}
                             </Item>
@@ -42,7 +51,7 @@ export default function Wallet() {
 
                         <Grid item xs={12} sm={9} md={8}>
                             <Item>
-                                <div id="chart" class="svg-container">
+                                <div id="chart" className="svg-container">
                                     <NodeGraph />
                                     {/* Anchor for the d3 Graph to be shown */}
                                 </div>
@@ -51,60 +60,72 @@ export default function Wallet() {
 
                         <Grid item xs={12} sm={12} md={12}>
                             <Item>
-                                <select name="Transaction-Options" id="Transaction-Options">
+                                <select
+                                    name="Transaction-Options"
+                                    id="Transaction-Options"
+                                    value={selectedOption}
+                                    onChange={handleOptionChange} // Add onChange listener
+                                >
                                     <option value="in">Transaction Flow In</option>
                                     <option value="out">Transaction Flow Out</option>
                                 </select>
                                 {/* Select Option to choose Incoming or Outgoing Transaction */}
-                                <div class="transaction-table-container">
-                                    <div class="table-wrapper">
-                                        <table class="transaction-table" style={{ width: '100%' }}>
-                                            <tr>
-                                                <th>Transaction ID</th>
-                                                <th>Value</th>
-                                                <th>From</th>
-                                                <th>To</th>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>20 ETH</td>
-                                                <td>0x000002</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>10 ETH</td>
-                                                <td>0x000003</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>50 ETH</td>
-                                                <td>0x000004</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>5 ETH</td>
-                                                <td>0x000005</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>8 ETH</td>
-                                                <td>0x000006</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                            <tr>
-                                                <td>T1</td>
-                                                <td>12 ETH</td>
-                                                <td>0x000007</td>
-                                                <td>0x000001</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                <div className="transaction-table-container">
+                                    {/* Content based on the selected option */}
+                                    {selectedOption === "in" ? (
+                                        <div className="table-wrapper">
+                                            <table className="transaction-table" style={{ width: '100%' }}>
+                                                <tr>
+                                                    <th>Transaction ID</th>
+                                                    <th>Value</th>
+                                                    <th>From</th>
+                                                    <th>To</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>20 ETH</td>
+                                                    <td>0x000002</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>10 ETH</td>
+                                                    <td>0x000003</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>50 ETH</td>
+                                                    <td>0x000004</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>5 ETH</td>
+                                                    <td>0x000005</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>8 ETH</td>
+                                                    <td>0x000006</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>T1</td>
+                                                    <td>12 ETH</td>
+                                                    <td>0x000007</td>
+                                                    <td>0x000001</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    ) : (
+                                        // Content for "Transaction Flow Out"
+                                        <div className="outgoing-transaction-content">
+                                            {/* Add content for "Transaction Flow Out" */}
+                                        </div>
+                                    )}
                                 </div>
-                                {/* Table contains incoming transaction */}
                             </Item>
                         </Grid>
                     </Grid>
