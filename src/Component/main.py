@@ -28,29 +28,45 @@ async def mainpage():
     return ("backend connected successfully")
 
 @app.get("/WalletDetails")
-async def walletdetails(addressId:str):
-    print(addressId)
+async def walletdetails(addressId: str):
     driver = GraphDatabase.driver(uri, auth=(user, password))
     session = driver.session(database="neo4j")
 
-
-    query = "MATCH (a:wallet {addressId: '0xb0606f433496bf66338b8ad6b6d51fc4d84a44cd'})-[:SENT_TO]->(b:wallet) RETURN a, b, [(a)-[r:SENT_TO]->(b) | r] AS sent_relationships;"
-    print(query)
+    query = "MATCH (a:wallet {addressId: '"+addressId+"'})-[:SENT_TO]->(b:wallet) RETURN a, b, [(a)-[r:SENT_TO]->(b) | { _nodes: [a, b], _relationships: r }] AS relationships;"
 
     result = session.run(query)
 
-     # Initialize an empty list to store results
     results_list = []
 
-    # Iterate over the query results and append them to the list
     for record in result:
-        results_list.append(record)
+        relationships = record["relationships"]
 
-    # Close the session and driver when done
+        # Append each relationship to the result list
+        for relationship in relationships:
+            results_list.append([relationship])
+
+    formatted_result = []
+
+    for item in results_list:
+        formatted_item = {
+            "_nodes": item[0]["_nodes"],
+            "_relationships": [{
+                "gas_price": item[0]["_relationships"]["gas_price"],
+                "block_timestamp": item[0]["_relationships"]["block_timestamp"],
+                "gas_used": item[0]["_relationships"]["gas_used"],
+                "gas": item[0]["_relationships"]["gas"],
+                "transaction_fee": item[0]["_relationships"]["transaction_fee"],
+                "block_number": item[0]["_relationships"]["block_number"],
+                "value": item[0]["_relationships"]["value"],
+                "hash": item[0]["_relationships"]["hash"]
+            }]
+        }
+        formatted_result.append([formatted_item])
+
     session.close()
     driver.close()
+    return formatted_result
 
-    return results_list
 
 @app.get("/WalletFrom")
 async def walletdetailsfrom(addressId:str):
@@ -58,23 +74,40 @@ async def walletdetailsfrom(addressId:str):
     session = driver.session(database="neo4j")
 
 
-    query = "MATCH p=(target)-[:RECEIVED_FROM]->(source:wallet {addressId: '"+addressId+"'}) RETURN p;"
-    print(query)
+    query = "MATCH (a:wallet)-[:RECEIVED_FROM]->(b:wallet {addressId: '"+addressId+"'}) RETURN a, b, [(a)-[r:RECEIVED_FROM]->(b) | { _nodes: [a, b], _relationships: r }] AS relationships;"
 
     result = session.run(query)
 
-     # Initialize an empty list to store results
     results_list = []
 
-    # Iterate over the query results and append them to the list
     for record in result:
-        results_list.append(record)
+        relationships = record["relationships"]
 
-    # Close the session and driver when done
+        # Append each relationship to the result list
+        for relationship in relationships:
+            results_list.append([relationship])
+
+    formatted_result = []
+
+    for item in results_list:
+        formatted_item = {
+            "_nodes": item[0]["_nodes"],
+            "_relationships": [{
+                "gas_price": item[0]["_relationships"]["gas_price"],
+                "block_timestamp": item[0]["_relationships"]["block_timestamp"],
+                "gas_used": item[0]["_relationships"]["gas_used"],
+                "gas": item[0]["_relationships"]["gas"],
+                "transaction_fee": item[0]["_relationships"]["transaction_fee"],
+                "block_number": item[0]["_relationships"]["block_number"],
+                "value": item[0]["_relationships"]["value"],
+                "hash": item[0]["_relationships"]["hash"]
+            }]
+        }
+        formatted_result.append([formatted_item])
+
     session.close()
     driver.close()
-
-    return results_list
+    return formatted_result
 
 @app.get("/allwallet")
 async def walletdetailsfrom():

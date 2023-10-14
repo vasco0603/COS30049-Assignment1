@@ -41,6 +41,7 @@ export default function Wallet() {
             Axios.get("http://127.0.0.1:8000/WalletFrom?addressId="+ searchValue)
                 .then((response) => {
                     const neo4jDatafrom = response.data; // Assuming the response is the array you provided
+                    console.log(response.data)
                     setTransactions(neo4jDatafrom);
                 })
                 .catch((error) => {
@@ -50,6 +51,7 @@ export default function Wallet() {
             Axios.get("http://127.0.0.1:8000/WalletDetails?addressId="+searchValue)
                 .then((response) => {
                     const neo4jData = response.data; // Assuming the response is the array you provided
+                    console.log(response.data)
                     setTransactions(neo4jData);
                 })
                 .catch((error) => {
