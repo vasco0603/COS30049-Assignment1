@@ -24,7 +24,6 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Wallet() {
     const [transactionFlow, setTransactionFlow] = useState('in');
     const [transactions, setTransactions] = useState([]);
-    const [transactionsfrom, setTransactionsfrom] = useState([]);
 
     const handleTransactionFlowChange = (event) => {
         setTransactionFlow(event.target.value);
@@ -77,7 +76,7 @@ export default function Wallet() {
                         <Grid item xs={12} sm={9} md={8}>
                             <Item>
                                 <div id="chart" className="svg-container">
-                                    <NodeGraph transactionFlow={transactionFlow} />
+                                    <NodeGraph transactionFlow={transactionFlow} transactions={transactions} /> {/* Pass transactions as a prop */}
                                 </div>
                             </Item>
                         </Grid>
