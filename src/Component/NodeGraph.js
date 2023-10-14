@@ -14,10 +14,11 @@ export default function NodeGraph() {
 
         const svg = d3.select(svgRef.current)
             .attr('width', width)
-            .attr('height', height)
+            .attr('height', '100%')
             .style("background-color", "#transparent")
             .attr("style", "outline: thin solid gray;")
-            .style("border-radius", "20px");
+            .style('border-radius', '20px');
+        /*Declaring SVG canvas with the anchor of current svg container and give it some styling*/
         /*Declaring SVG canvas with the anchor of current svg container and give it some styling*/
 
         const nodes = [
@@ -97,7 +98,7 @@ export default function NodeGraph() {
     }, []);
 
     return (
-        <div id="chart-container" style={{ width: '80%', height: '300px' }}>
+        <div id="chart-container" style={{ width: '100%', height: '300px' }}>
             <svg ref={svgRef}></svg>
         </div>
     );

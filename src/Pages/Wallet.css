@@ -6,6 +6,8 @@ body {
 .wallet-page-details{
     background-color: #3c354a;
     width: 70%;
+    max-width: 1000px;
+    /* Set a maximum width */
     justify-content: center;
     text-align: center;
     margin: auto;
@@ -17,8 +19,11 @@ body {
 /*Box of wallet details for the account*/
 
 #chart{
-    justify-content: center;
-    text-align: center;
+    background-color: transparent;
+    width: 100%;
+    /* Set the width to 100% to fill the container */
+    height: 100%;
+    /* Set the height to 100% to fill the container */
 }
 /*Middle the chart content*/
 
@@ -107,11 +112,10 @@ table{
 /*Styling for table wrapper*/
 
 #chart-container{
+    display: flex;
     justify-content: center;
-    margin: auto;
+    align-items: center;
     max-width: 100%;
-    overflow-x :auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /* Ensure it doesn't exceed the parent's width */
 }
 /*Styling for the chart container*/
