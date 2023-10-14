@@ -22,11 +22,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Wallet() {
     // State variable to store the selected option
-    const [selectedOption, setSelectedOption] = useState("in");
+    const [transactionFlow, setTransactionFlow] = useState('in');
 
-    // Function to handle option change and update content
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+    const handleTransactionFlowChange = (event) => {
+        setTransactionFlow(event.target.value);
     };
 
     return (
@@ -63,8 +62,8 @@ export default function Wallet() {
                                 <select
                                     name="Transaction-Options"
                                     id="Transaction-Options"
-                                    value={selectedOption}
-                                    onChange={handleOptionChange} // Add onChange listener
+                                    value={transactionFlow}
+                                    onChange={handleTransactionFlowChange}
                                 >
                                     <option value="in">Transaction Flow In</option>
                                     <option value="out">Transaction Flow Out</option>
@@ -72,7 +71,7 @@ export default function Wallet() {
                                 {/* Select Option to choose Incoming or Outgoing Transaction */}
                                 <div className="transaction-table-container">
                                     {/* Content based on the selected option */}
-                                    {selectedOption === "in" ? (
+                                    {transactionFlow === "in" ? (
                                         <div className="table-wrapper">
                                             <table className="transaction-table" style={{ width: '100%' }}>
                                                 <tr>
