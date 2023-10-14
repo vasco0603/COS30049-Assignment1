@@ -17,14 +17,11 @@ function App() {
   return (
       <div>
         <Draweer />
-         {/* Calling the drawer sidebar*/}
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/TeamMember" element={<TeamMember />} />
-          <Route path="/Wallet" element={<Wallet />} />
+          <Route path="/Wallet/:searchValue" element={<Wallet />} />
         </Routes>
-       {/*Declaring the routes */}
       </div>
   );
 }

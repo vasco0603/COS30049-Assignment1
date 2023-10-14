@@ -17,7 +17,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Home() {
-
     return (
         <Box
             sx={{
