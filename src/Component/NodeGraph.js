@@ -32,13 +32,13 @@ export default function NodeGraph({ transactionFlow }) {
             .style("border-radius", "20px");
 
         const nodes = [
-            { ind: 0, id: '0x000001', x: width / 2, y: height / 2 },
-            { ind: 1, id: '0x000002', x: 200, y: 100 },
-            { ind: 2, id: '0x000003', x: 400, y: 40 },
-            { ind: 3, id: '0x000004', x: 600, y: 100 },
-            { ind: 4, id: '0x000005', x: 200, y: 200 },
-            { ind: 5, id: '0x000006', x: 400, y: 270 },
-            { ind: 6, id: '0x000007', x: 600, y: 200 },
+            { ind: 0, id: '0x000001'},
+            { ind: 1, id: '0x000002'},
+            { ind: 2, id: '0x000003'},
+            { ind: 3, id: '0x000004'},
+            { ind: 4, id: '0x000005'},
+            { ind: 5, id: '0x000006'},
+            { ind: 6, id: '0x000007'},
         ];
 
         const links = [
