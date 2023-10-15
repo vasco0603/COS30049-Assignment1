@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const CenteredSearchBar = () => {
     const [addressIds, setAddressIds] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate(); // Get the navigation function
 
     useEffect(() => {
@@ -36,10 +37,15 @@ const CenteredSearchBar = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Navigate to the Wallet component with the input value as a parameter
-        navigate(`/Wallet/${inputValue}`);
+        // Check if the input value is in the list of options
+        if (addressIds.includes(inputValue)) {
+            // Navigate to the Wallet component with the input value as a parameter
+            navigate(`/Wallet/${ inputValue }`);
+        } else {
+            setError('Wallet not found');
+            console.error('Error: Wallet not found');
+        }
     };
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -58,6 +64,7 @@ const CenteredSearchBar = () => {
                         options={addressIds}
                         onInputChange={(e, value) => {
                             setInputValue(value);
+                            setError(null); // Clear any previous error
                         }}
                         renderInput={(params) => (
                             <TextField
@@ -67,7 +74,7 @@ const CenteredSearchBar = () => {
                                     type: 'search',
                                     startAdornment: (
                                         <InputAdornment position="start" button="true">
-                                            <SearchIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={handleSubmit}/>
+                                            <SearchIcon sx={{ color: 'white', cursor: 'pointer' }} onClick={handleSubmit} />
                                         </InputAdornment>
                                     ),
                                     onKeyDown: handleKeyDown,
@@ -85,7 +92,11 @@ const CenteredSearchBar = () => {
                     />
                 </Stack>
             </div>
+            {error && (
+                <div style={{ color: 'red' }}>{error}</div>
+            )}
         </form>
+
     );
 }
 
