@@ -132,5 +132,27 @@ async def walletdetailsfrom():
 
     return results_list
 
+@app.get("/personalDetails")
+async def personalDetails(addressId:str):
+    driver = GraphDatabase.driver(uri, auth=(user, password))
+    session = driver.session(database="neo4j")
+
+    query = "MATCH (n:wallet) WHERE n.addressId = '"+addressId+"' RETURN n;"
+
+    result = session.run(query)
+
+    results_list = []
+
+    # Iterate over the query results and append them to the list
+    for record in result:
+        results_list.append(record)
+    print(results_list)
+
+    session.close()
+    driver.close()
+
+    return results_list
+
+
 
 

@@ -26,6 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Wallet() {
     const [transactionFlow, setTransactionFlow] = useState('in');
     const [transactions, setTransactions] = useState([]);
+    const [WalletDetails, setwalletDetails] = useState([]);
 
     const handleTransactionFlowChange = (event) => {
         setTransactionFlow(event.target.value);
@@ -36,6 +37,14 @@ export default function Wallet() {
 
     useEffect(() => {
         console.log(searchValue)
+        Axios.get("http://127.0.0.1:8000/personalDetails?addressId=" + searchValue)
+            .then((response) => {
+                const neo4jDatafrom = response.data; // Assuming the response is the array you provided
+                setwalletDetails(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data from Neo4j', error);
+            });
         // Fetch data from your source (e.g., Neo4j) and set the transactions state
         if (transactionFlow === 'in') {
             Axios.get("http://127.0.0.1:8000/WalletFrom?addressId="+ searchValue)
@@ -58,6 +67,7 @@ export default function Wallet() {
                     console.error('Error fetching data from Neo4j', error);
                 });
         }
+
     }, [searchValue, transactionFlow]); // Listen for changes in transactionFlow
 
     return (
@@ -76,7 +86,15 @@ export default function Wallet() {
                                     <br />
                                     <br />
                                     <Person2Icon sx={{ fontSize: 100, fill: 'white' }} />
-                                    <p className="wallet-id">0x000001</p>
+                                    {WalletDetails.length > 0 ? (
+                                        <div>
+                                            <p className="wallet-name">{WalletDetails[0][0].name}</p>
+                                            <p className="wallet-id">{WalletDetails[0][0].addressId}</p>
+                                        </div>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+
                                 </div>
                             </Item>
                         </Grid>
