@@ -62,7 +62,7 @@ export default function PermanentDrawer() {
                         height: 70, // Adjust the height as
                     }}>
                     <ListItemIcon>
-                        <Link to="/Wallet"><WalletIcon sx={{ color: 'white' }} /></Link>
+                        <Link to="/Wallet/0x8d08aad4b2bac2bb761ac4781cf62468c9ec47b4"><WalletIcon sx={{ color: 'white' }} /></Link>
                     </ListItemIcon>
                 </ListItem>
                 <ListItem button
