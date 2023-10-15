@@ -3,10 +3,11 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Draweer from './../Component/drawer';
+import Drawer from './../Component/drawer'; // Import the Drawer component
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import Seaarch from './../Component/searchBar';
+import Search from './../Component/searchBar'; // Import the Search component
 
+// Define a styled Paper component called 'Item'
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -28,7 +29,7 @@ export default function Home() {
             <Grid container spacing={1}>
                 <Grid item xs={1}>
                     <Item>
-                        <Draweer />
+                        <Drawer /> {/* Render the Drawer component */}
                     </Item>
                 </Grid>
                 <Grid item xs={11}>
@@ -37,11 +38,13 @@ export default function Home() {
                             <Item sx={{ backgroundColor: 'transparent', color: 'white' }}>Home</Item>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Item sx={{ backgroundColor: 'transparent' }}><CurrencyBitcoinIcon sx={{ color: 'yellow', fontSize: 150 }} /></Item>
+                            <Item sx={{ backgroundColor: 'transparent' }}>
+                                <CurrencyBitcoinIcon sx={{ color: 'yellow', fontSize: 150 }} />
+                            </Item>
                         </Grid>
                         <Grid item xs={8} sm={10} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Item>
-                                <Seaarch/>
+                                <Search /> {/* Render the Search component */}
                             </Item>
                         </Grid>
                     </Grid>

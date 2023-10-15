@@ -97,7 +97,7 @@ const NodeGraph = ({ transactions, transactionFlow}) => {
             .data(links)
             .enter()
             .append('line')
-            .attr('stroke', 'black')
+            .attr('stroke', 'gray')
             .attr('stroke-width', 4);
 
         const nodeGroup = svg.selectAll('g')

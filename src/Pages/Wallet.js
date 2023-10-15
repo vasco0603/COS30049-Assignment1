@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'; // Corrected import statement
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import './Wallet.css';
-import NodeGraph from './../Component/NodeGraph';
+import './Wallet.css'; // Import the CSS file
+import NodeGraph from './../Component/NodeGraph'; // Import the NodeGraph component
 import Person2Icon from '@mui/icons-material/Person2';
-import Draweer from './../Component/drawer';
-import Axios from 'axios';
-import { useParams } from 'react-router-dom';
+import Drawer from './../Component/drawer'; // Import the Drawer component
+import Axios from 'axios'; // Import Axios for making HTTP requests
+import { useParams } from 'react-router-dom'; // Import useParams from React Router
 
 
+
+// Define a styled Paper component called 'Item'
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'transparent',
     ...theme.typography.body2,
@@ -24,59 +26,65 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Wallet() {
+    // Define state variables to manage transaction data
     const [transactionFlow, setTransactionFlow] = useState('in');
     const [transactions, setTransactions] = useState([]);
     const [WalletDetails, setwalletDetails] = useState([]);
 
+    // Handle the change in transaction flow (inbound or outbound)
     const handleTransactionFlowChange = (event) => {
         setTransactionFlow(event.target.value);
     };
 
+    // Get the 'searchValue' from the route parameters using React Router
     const { searchValue } = useParams();
 
-
+    // Use the 'useEffect' hook to fetch data when 'searchValue' or 'transactionFlow' changes
     useEffect(() => {
-        console.log(searchValue)
+        console.log(searchValue);
+
+        // Fetch wallet details from your data source (e.g., Neo4j) based on 'searchValue'
         Axios.get("http://127.0.0.1:8000/personalDetails?addressId=" + searchValue)
             .then((response) => {
-                const neo4jDatafrom = response.data; // Assuming the response is the array you provided
+                const neo4jDatafrom = response.data;
                 setwalletDetails(response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data from Neo4j', error);
             });
-        // Fetch data from your source (e.g., Neo4j) and set the transactions state
+
+        // Fetch transaction data based on 'searchValue' and 'transactionFlow'
         if (transactionFlow === 'in') {
-            Axios.get("http://127.0.0.1:8000/WalletFrom?addressId="+ searchValue)
+            Axios.get("http://127.0.0.1:8000/WalletFrom?addressId=" + searchValue)
                 .then((response) => {
-                    const neo4jDatafrom = response.data; // Assuming the response is the array you provided
-                    console.log(response.data)
+                    const neo4jDatafrom = response.data;
+                    console.log(response.data);
                     setTransactions(neo4jDatafrom);
                 })
                 .catch((error) => {
                     console.error('Error fetching data from Neo4j', error);
                 });
         } else if (transactionFlow === 'out') {
-            Axios.get("http://127.0.0.1:8000/WalletDetails?addressId="+searchValue)
+            Axios.get("http://127.0.0.1:8000/WalletDetails?addressId=" + searchValue)
                 .then((response) => {
-                    const neo4jData = response.data; // Assuming the response is the array you provided
-                    console.log(response.data)
+                    const neo4jData = response.data;
+                    console.log(response.data);
                     setTransactions(neo4jData);
                 })
                 .catch((error) => {
                     console.error('Error fetching data from Neo4j', error);
                 });
         }
+    }, [searchValue, transactionFlow]); // Listen for changes in 'searchValue' and 'transactionFlow'
 
-    }, [searchValue, transactionFlow]); // Listen for changes in transactionFlow
-
+    // Render the wallet page UI
     return (
         <div className="wallet-page">
             <div className="wallet-page-header">
                 <p className="wallet-header-paragraph">Wallet</p>
             </div>
             <div className="wallet-page-details">
-                <Draweer />
+                <Drawer /> {/* Render the Drawer component */}
                 <Box sx={{ flexGrow: 1 }} className="Grid-Box">
                     <Grid container spacing={2} alignItems="stretch">
                         <Grid item xs={12} sm={3} md={4}>
@@ -94,7 +102,6 @@ export default function Wallet() {
                                     ) : (
                                         <p className="wallet-name">Loading...</p>
                                     )}
-
                                 </div>
                             </Item>
                         </Grid>

@@ -8,11 +8,13 @@ import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CenteredSearchBar = () => {
+    // State variables for address IDs, input value, and error
     const [addressIds, setAddressIds] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate(); // Get the navigation function
 
+    // Fetch address IDs from a data source (e.g., Neo4j)
     useEffect(() => {
         Axios.get('http://127.0.0.1:8000/allwallet')
             .then((response) => {
@@ -25,22 +27,22 @@ const CenteredSearchBar = () => {
             });
     }, []);
 
+    // Handle key press events, particularly Enter key
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            // Update the value and call the callback function
             setInputValue(e.target.value);
             e.preventDefault();
-            // Call the handleSubmit function with the event object
             handleSubmit(e);
         }
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         // Check if the input value is in the list of options
         if (addressIds.includes(inputValue)) {
             // Navigate to the Wallet component with the input value as a parameter
-            navigate(`/Wallet/${ inputValue }`);
+            navigate(`/Wallet/${inputValue}`);
         } else {
             setError('Wallet not found');
             console.error('Error: Wallet not found');
@@ -96,7 +98,6 @@ const CenteredSearchBar = () => {
                 <div style={{ color: 'red' }}>{error}</div>
             )}
         </form>
-
     );
 }
 
