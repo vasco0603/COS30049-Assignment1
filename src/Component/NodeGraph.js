@@ -98,7 +98,7 @@ const NodeGraph = ({ transactions, transactionFlow}) => {
             .enter()
             .append('line')
             .attr('stroke', 'black')
-            .attr('stroke-width', 2);
+            .attr('stroke-width', 4);
 
         const nodeGroup = svg.selectAll('g')
             .data(nodes)
@@ -117,7 +117,7 @@ const NodeGraph = ({ transactions, transactionFlow}) => {
 
         nodeGroup
             .append('circle')
-            .attr('r', 10)
+            .attr('r', 12)
             .attr('fill', (d, i) => `rgb(${30 + (i * 225 / nodes.length)}, 0, 255)`);
 
         nodeGroup

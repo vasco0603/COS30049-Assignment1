@@ -92,7 +92,7 @@ export default function Wallet() {
                                             <p className="wallet-id">{WalletDetails[0][0].addressId}</p>
                                         </div>
                                     ) : (
-                                        <p>Loading...</p>
+                                        <p className="wallet-name">Loading...</p>
                                     )}
 
                                 </div>
