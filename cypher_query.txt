@@ -1,0 +1,63 @@
+CREATE CONSTRAINT `uniq_wallet_addressId` IF NOT EXISTS
+FOR (n: wallet)
+REQUIRE (n.addressId) IS UNIQUE;
+
+:param {
+  idsToSkip: []
+};
+
+// Load KellyUni's CSV data
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/KellyUni/COS30049_DA/main/Assignment2/nodes.csv' AS kellyRow
+WITH kellyRow
+WHERE NOT kellyRow.addressId IN $idsToSkip AND NOT kellyRow.addressId IS NULL
+CALL {
+  WITH kellyRow
+  MERGE (k: `wallet` { `addressId`: kellyRow.`addressId` })
+  SET k.`type` = toString(trim(kellyRow.`type`))
+  SET k.`name` = kellyRow.`name`  // Attach the name property from KellyUni's CSV
+} IN TRANSACTIONS OF 10000 ROWS;
+
+// Load your CSV data with the name information
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/vasco0603/COS30049-Assignment1/Assignment2/src/Component/csv/nodes_name.csv' AS mikeRow
+WITH mikeRow
+WHERE NOT mikeRow.addressId IN $idsToSkip AND NOT mikeRow.addressId IS NULL
+MATCH (n: `wallet` { `addressId`: mikeRow.`addressId` })
+SET n.`name` = mikeRow.`name`;  // Attach the name property from your CSV
+
+// Create relationships a - `SENT_TO` -> b
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/KellyUni/COS30049_DA/main/Assignment2/relationships.csv' AS row
+WITH row 
+CALL {
+  WITH row
+  MATCH (source: wallet { addressId: row.from_address })
+  MATCH (target: wallet { addressId: row.to_address })
+  // Use MERGE instead of CREATE to avoid creating duplicate relationships
+  MERGE (source) - [r:`SENT_TO`{hash: toString(trim(row.`hash`))}] -> (target)
+  ON CREATE SET r.`value` = toString(trim(row.`value`)),
+    r.`gas` = toInteger(trim(row.`gas`)),
+    r.`gas_used` = toInteger(trim(row.`gas_used`)),
+    r.`gas_price` = toInteger(trim(row.`gas_price`)),
+    r.`transaction_fee` = toInteger(trim(row.`transaction_fee`)),
+    r.`block_number` = toInteger(trim(row.`block_number`)),
+    r.`block_timestamp` = toInteger(trim(row.`block_timestamp`))
+} IN TRANSACTIONS OF 10000 ROWS;
+
+// Create relationships a - `RECEIVED_FROM` -> b
+// Create relationships a - `RECEIVED_FROM` -> b
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/KellyUni/COS30049_DA/main/Assignment2/relationships.csv' AS row
+WITH row 
+CALL {
+  WITH row
+  MATCH (source: wallet { addressId: row.to_address })
+  MATCH (target: wallet { addressId: row.from_address })
+  // Use MERGE to avoid creating duplicate relationships based on hash
+  MERGE (source) - [r:`RECEIVED_FROM`{hash: toString(trim(row.`hash`))}] -> (target)
+  ON CREATE SET r.`value` = toString(trim(row.`value`)),
+    r.`gas` = toInteger(trim(row.`gas`)),
+    r.`gas_used` = toInteger(trim(row.`gas_used`)),
+    r.`gas_price` = toInteger(trim(row.`gas_price`)),
+    r.`transaction_fee` = toInteger(trim(row.`transaction_fee`)),
+    r.`block_number` = toInteger(trim(row.`block_number`)),
+    r.`block_timestamp` = toInteger(trim(row.`block_timestamp`))
+} IN TRANSACTIONS OF 10000 ROWS;
+
